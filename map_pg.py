@@ -1,5 +1,6 @@
 import pygame
 import requests
+import sys
 import os
 
 
@@ -7,6 +8,7 @@ def show_map(ll_spn=None, map_type="map", add_params=None):
     if ll_spn:
         map_request = f"http://static-maps.yandex.ru/1.x/?{ll_spn}&l={map_type}"
     else:
+        print(1)
         map_request = f"http://static-maps.yandex.ru/1.x/?l={map_type}"
 
     if add_params:

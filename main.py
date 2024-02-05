@@ -1,10 +1,9 @@
-# python3 class_2.py Москва, ул. Шолохова, 20
-
 import sys
+
+from biz import find_business
+from dist import lonlat_distance
 from geo import get_coordinates
 from map_pg import show_map
-from distance_search import  lonlat_distance
-from organisation_search import find_business, get_business
 
 
 def main():
@@ -14,21 +13,21 @@ def main():
     address_ll = f"{lat},{lon}"
     span = "0.005,0.005"
 
-    organisation = find_business(address_ll, span, request='аптека')
-    point = organisation["geometry"]["coordinates"]
+    organization = find_business(address_ll, span, "аптека")
+    point = organization["geometry"]["coordinates"]
     org_lat = float(point[0])
     org_lon = float(point[1])
     point_param = f"pt={org_lat},{org_lon},pm2dgl"
-    points_param = point_param + f"~{address_ll},pm2rgl"
+    points_param = point_param + f"~{address_ll},pm2rdl"
     show_map(map_type="map", add_params=points_param)
 
     # Сниппет
     # Название организации.
-    name = organisation["properties"]["CompanyMetaData"]["name"]
+    name = organization["properties"]["CompanyMetaData"]["name"]
     # Адрес организации.
-    address = organisation["properties"]["CompanyMetaData"]["address"]
+    address = organization["properties"]["CompanyMetaData"]["address"]
     # Время работы
-    time = organisation["properties"]["CompanyMetaData"]["Hours"]["text"]
+    time = organization["properties"]["CompanyMetaData"]["Hours"]["text"]
     # Расстояние
     distance = round(lonlat_distance((lon, lat), (org_lon, org_lat)))
 
